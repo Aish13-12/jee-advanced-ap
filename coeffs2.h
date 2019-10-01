@@ -436,36 +436,7 @@ void difference(char*str1,char*str2,int n)
 	fclose(fp2);
 }	
 
-double linspace(double n,double m,int j,char*str)
-{
-	FILE*fp;
-	fp=fopen(str,"w");
-	double x[j];
-	int i;
-	for (i = 0; i < j; i++) 
-	{
-		if(m>n)
-		{
-			x[0]=0;
-			x[i]=x[0]+i*(m-n)/j ;
-			fprintf(fp,"%lf\n",x[i]);
-		}
-		else
-		{
-			if(m<n)
-			{
-				x[0]=0;
-                x[i]=x[0]+i*(m-n)/j ;
-			    fprintf(fp,"%lf\n",x[i]);
-			}
-			else
-			printf("Invalid input");
 			
-		}
-	}
-
-}			
-				
 void mergingfiles(char*str1,int n1,char*str2,int n2,char*str3)
 {
 	FILE*fp1;
