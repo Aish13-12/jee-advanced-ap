@@ -11,15 +11,13 @@ void uniform(char *str, int len);
 void gaussian(char *str, int len);
 double mean(char *str,int len);
 double mean(char *str,int len);
-void uniform2(char *str, int len);
-void uniform3(char *str, int len);
-void solsin(char *str, float value,int n);
-void solcos(char *str,float value,int n);
-void solution(char *str1,char *str2,int n,int m,double c);
+void solsin(char *str, float value,int m,int n);
+void solution(char *str1,char *str2,int n,int m,int p,double c);
 void ascendingo(char *str1,char *str2,int n);
 double remove_repeated_elements(char *str1,char*str2,int n);
 void difference(char*str1,char*str2,int n);
-int  numelements(char *str);
+void mergingfiles(char*str1,int n1,char*str2,int n2,char*str3);
+void solcos(char *str,float value,int m,int n);
 
 //End function declaration
 
@@ -249,13 +247,13 @@ fclose(fp);
 }
 
 
-void solsin(char *str,float value,int n)
+void solsin(char *str,float value,int m,int n)
 {
 int i;
 FILE*fp;
  double nu=0.0;
 fp = fopen(str,"w");
-for(i=-3;i<n;i++)
+for(i=m;i<n;i++)
 {
 nu=i*M_PI+pow(-1,i)*asin(value);
 fprintf(fp,"%lf\n",nu);
@@ -263,13 +261,13 @@ fprintf(fp,"%lf\n",nu);
 fclose(fp);
 }
 
-void solcos(char *str,float value,int n)
+void solcos(char *str,float value,int m,int n)
 {
-	int i;
+int i;
 FILE*fp;
  double nu=0.0;
 fp = fopen(str,"w");
-for(i=0;i<n;i++)
+for(i=m;i<n;i++)
 {
 nu=2*i*M_PI+acos(value);
 fprintf(fp,"%lf\n",nu);
@@ -280,7 +278,7 @@ fprintf(fp,"%lf\n",nu);
 fclose(fp);
 }	
 
-void solution(char *str1,char *str2,int n,int m,double c)
+void solution(char *str1,char *str2,int n,int m,int p,double c)
 {
 int i;
 int j;
@@ -297,7 +295,7 @@ fscanf(fp1,"%lf",&x);
 if (x<=c&&x>=-c)
 {
 y1=acos(x/c);
-for(j=0;j<m;j++)
+for(j=p;j<m;j++)
 {
 temp=2*j*M_PI+y1;
 if (y1==0 && j==0)
@@ -385,13 +383,13 @@ double remove_repeated_elements(char*str1,char*str2, int n)
    fclose(fp1); 
    j = 0;
    fp2=fopen(str2,"w");
-   // Remove the duplicates ...
+   // Removing repeated elements
    for (i = 1; i <n; i++)
    {
      if (a[i] != a[j])
      {
        j++;
-       a[j] = a[i]; // Move it to the front
+       a[j] = a[i]; 
      }
    }
  
@@ -404,7 +402,7 @@ double remove_repeated_elements(char*str1,char*str2, int n)
    {
       fprintf(fp2,"%lf \n", a[i]);
    }
-  // Return the new size...
+  // Return the new size
    return(j + 1);
    fclose(fp2);
  }
@@ -437,7 +435,81 @@ void difference(char*str1,char*str2,int n)
 	}
 	fclose(fp2);
 }	
+
+double linspace(double n,double m,int j,char*str)
+{
+	FILE*fp;
+	fp=fopen(str,"w");
+	double x[j];
+	int i;
+	for (i = 0; i < j; i++) 
+	{
+		if(m>n)
+		{
+			x[0]=0;
+			x[i]=x[0]+i*(m-n)/j ;
+			fprintf(fp,"%lf\n",x[i]);
+		}
+		else
+		{
+			if(m<n)
+			{
+				x[0]=0;
+                x[i]=x[0]+i*(m-n)/j ;
+			    fprintf(fp,"%lf\n",x[i]);
+			}
+			else
+			printf("Invalid input");
+			
+		}
+	}
+
+}			
+				
+void mergingfiles(char*str1,int n1,char*str2,int n2,char*str3)
+{
+	FILE*fp1;
+	FILE*fp2;
+	FILE*fp3;
+	int i;
+	double s[n1+n2];
 	
+	fp1=fopen(str1,"r");
+	fp2=fopen(str2,"r");
+	for (i = 0; i < n1; i++)
+    {
+		fscanf(fp1, "%lf", &s[i]);
+	}
+	for (i = n1; i < n1+n2; i++)
+    {
+		fscanf(fp2, "%lf", &s[i]);
+	}
+	fp3=fopen(str3,"w");
+	for (i=0;i<n1+n2;i++)
+	{
+		fprintf(fp3,"%lf\n",s[i]);
+	}
+fclose(fp1);
+fclose(fp2);
+fclose(fp3);
+}	
+	
+
+		
+		
+		
+	
+	
+		
+		
+	
+					
+			
+		
+	
+		
+		
+		
 		
 		
 	
